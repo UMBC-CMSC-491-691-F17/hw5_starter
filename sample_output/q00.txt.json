@@ -1,0 +1,1 @@
+{"head": {"link": [], "vars": ["_star_fake"]}, "results": {"distinct": false, "bindings": [{"_star_fake": {"datatype": "http://www.w3.org/2001/XMLSchema#integer", "type": "typed-literal", "value": "1"}}], "ordered": true}}

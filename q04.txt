@@ -1,0 +1,14 @@
+# Find all universities in Maryland and their total number of known
+# students as computed by summing their undergraduate and graduate
+# students.  Assume 0 for an unknown number.  Sort the list from
+# largest to smallest enrollment.
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbpr: <http://dbpedia.org/resource/>
+PREFIX dbpo: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+
+SELECT  * WHERE { }
+

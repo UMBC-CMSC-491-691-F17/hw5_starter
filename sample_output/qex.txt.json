@@ -1,0 +1,1 @@
+{"head": {"link": [], "vars": ["P"]}, "results": {"distinct": false, "bindings": [{"P": {"type": "uri", "value": "http://dbpedia.org/resource/Marla_Maples"}}, {"P": {"type": "uri", "value": "http://dbpedia.org/resource/Melania_Trump"}}, {"P": {"type": "uri", "value": "http://dbpedia.org/resource/Ivana_Trump"}}], "ordered": true}}

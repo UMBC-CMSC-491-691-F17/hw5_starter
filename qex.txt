@@ -1,0 +1,13 @@
+# Who are Donald Trump's spouses?
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+
+SELECT  ?P 
+WHERE {
+  dbr:Donald_Trump dbo:spouse ?P .
+}

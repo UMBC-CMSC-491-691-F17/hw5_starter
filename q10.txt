@@ -1,0 +1,11 @@
+# TWO-HOP: Find the set of people who are linked to Alan_Turing
+# through a path of length one or two going through another person.
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+
+SELECT  * WHERE { }
