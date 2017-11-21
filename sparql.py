@@ -57,6 +57,7 @@ def json2html(data):
         # the json is from a select sparql query
         vars = data['head']['vars']
         html = '<thead><tr>' + ''.join(['<th> %s </th>' % v for v in vars]) + '</tr></thead><tbody>'
+
         for result in data['results']['bindings']:
             result_values = [linkify(result.get(v,{}).get('value', '')) for v in vars]
             html += '<tr>' + ''.join(['<td>'+ rv + '</td>' for rv in result_values]) + '</tr>'
@@ -79,16 +80,16 @@ def linkify(string):
 
         
 def ask_and_write(file, endpoint):
-    print('query {}'.format(file))
+    print('query {0}'.format(file))
     data = ask_query(open(file).read(), endpoint)
     if data:
-        print('Query returned {} results'.format(number_results(data)))
+        print('Query returned {0} results'.format(number_results(data)))
         with open(file+".html", 'w') as HOUT:
             HOUT.write("<html><body>"+json2html(data)+"</body></html>")
         with open(file+".json", 'w') as JOUT:
             JOUT.write(json.dumps(data))
     else:
-        print('Query {} failed'.format(file))
+        print('Query {0} failed'.format(file))
     print('')
         
 def main():
