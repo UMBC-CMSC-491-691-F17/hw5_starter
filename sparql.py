@@ -12,7 +12,14 @@ First argument is endpoint if it looks like a URL, remaining args are names of f
 # so this will run in python 3 and 2.x
 from __future__ import print_function
 
-import sys, urllib, json
+import sys, json
+import urllib
+# urllib has been reorganized in python3
+if sys.version_info[0] < 3:
+    from urllib import urlopen, urlencode
+else:
+    from urllib.request import urlopen
+    from urllib.parse import urlencode
 
 usage = """USAGE: python sparql.py [endpoint] q1file q2file ... qnfile"""
 
@@ -25,15 +32,18 @@ def ask_query(query, endpoint=default_endpoint, format=default_format):
     params={"query":query, "format":format, "default-graph":"",     
             "debug":"on", "timeout":"", "save":"display", "fname":"" }
     try:
-        response = urllib.urlopen(endpoint, urllib.urlencode(params)).read()
-        return json.loads(response)        
+        response = urlopen(endpoint, urlencode(params).encode("utf-8")).read()
+        return json.loads(response.decode("utf-8") )
     except:
+        raise
         return None
 
 def number_results (json_obj):
     """ Returns the number of results in a json object returned by a
     sparql endpoint """
-    if 'head' in json_obj:
+    if not json_obj:
+        return 0
+    elif 'head' in json_obj:
         # the json is from a select sparql query
         return len(json_obj['results']['bindings'])
     else:
@@ -47,9 +57,9 @@ def json2html(data):
         # the json is from a select sparql query
         vars = data['head']['vars']
         html = '<thead><tr>' + ''.join(['<th> %s </th>' % v for v in vars]) + '</tr></thead><tbody>'
-        html = html.encode('utf-8')
         for result in data['results']['bindings']:
-            html += '<tr>' + ''.join(['<td>'+linkify(result.get(v,{}).get('value', ''))+'</td>' for v in vars]) + '</tr>'
+            result_values = [linkify(result.get(v,{}).get('value', '')) for v in vars]
+            html += '<tr>' + ''.join(['<td>'+ rv + '</td>' for rv in result_values]) + '</tr>'
         html += '</tbody>'
     else:
         # the json is from a construct sparql query
@@ -60,23 +70,25 @@ def json2html(data):
 
     return '<table border="1">' + html + '</table>'
 
+
 def linkify(string):
     """ if string looks like a URI, turn it into a link """
     result = '<a href="%s">%s</a>' % (string, string) if string.startswith('http://') else string
-    return result.encode('utf-8')
+    #return result.encode('utf-8')
+    return result
 
         
 def ask_and_write(file, endpoint):
     print('query {}'.format(file))
     data = ask_query(open(file).read(), endpoint)
     if data:
-        with open(file+".html", 'w') as HOUT, open(file+".json", 'w') as JOUT:
-            print('Query returned {} results'.format(number_results(data)))
-            JOUT.write(json.dumps(data))
+        print('Query returned {} results'.format(number_results(data)))
+        with open(file+".html", 'w') as HOUT:
             HOUT.write("<html><body>"+json2html(data)+"</body></html>")
+        with open(file+".json", 'w') as JOUT:
+            JOUT.write(json.dumps(data))
     else:
         print('Query {} failed'.format(file))
-
     print('')
         
 def main():
