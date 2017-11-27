@@ -12,11 +12,16 @@ First argument is endpoint if it looks like a URL, remaining args are names of f
 # so this will run in python 3 and 2.x
 from __future__ import print_function
 
-import sys, json
-import urllib
+
+import sys
+import json, urllib
+
 # urllib has been reorganized in python3
 if sys.version_info[0] < 3:
     from urllib import urlopen, urlencode
+    # set the default encoding as utf-8 .
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 else:
     from urllib.request import urlopen
     from urllib.parse import urlencode
@@ -35,7 +40,6 @@ def ask_query(query, endpoint=default_endpoint, format=default_format):
         response = urlopen(endpoint, urlencode(params).encode("utf-8")).read()
         return json.loads(response.decode("utf-8") )
     except:
-        raise
         return None
 
 def number_results (json_obj):
